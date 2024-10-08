@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:10:03 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/08 19:03:04 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/08 23:06:29 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void parse(t_program *program)
     t_token 	**tokens;
 
 	//printf("Parsing input: %s\n", program->input);
-    //if (!validate_input(program))
-    //    return;
+    if (!validate_input(program))
+        return;
 	//printf("Input is valid\n");
     tokens = tokenize(program->input);
 	print_tokens1(tokens);

@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/07 18:41:39 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/08 23:15:58 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ void 	free_tokens(t_token **tokens);
 int 	is_operator(char c);
 int 	is_whitespace(char c);
 t_token *create_token(t_token_type type, const char *content);
-t_token **add_token(t_token **tokens, int *size, t_token *new_token);
-void 	add_token_if_needed(char *token, int *token_pos, t_token ***tokens, int *size, t_token_type token_type);
+t_token **add_token(t_token **tokens, t_token *new_token);
+void 	add_token_if_needed(char *token, int *token_pos, t_token ***tokens, t_token_type token_type);
 
 
 //EXECUTE FUNCTIONS

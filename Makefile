@@ -18,19 +18,16 @@ RM = rm -f
 GREEN=\033[0;32m
 NC=\033[0m
 
-all: $(NAME) clean_output
+all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@echo -e "\nLets pray it compiles..."
-	@echo "Generating executables..."
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS) && echo -e "${GREEN}\n--------------------\n-MINISHELL COMPILED-\n--------------------\n${NC}"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS)
+	@printf "${GREEN}\n--------------------------\n-MINISHELL COMPILED MFKRS-\n--------------------------\n${NC}"
+	@printf "\nRun with ./${NAME} and test with some care\n\n"
 
 $(LIBFT):
 	@make -s -C libraries/Libft
 	@make bonus -s -C libraries/Libft
-
-clean_output: clean
-	@echo "test with some care"
 
 clean:
 	@$(RM) $(OBJS)
@@ -42,4 +39,7 @@ fclean: clean
 
 re: fclean $(NAME)
 
-.PHONY: all clean fclean re program clean_output
+%.o: %.c
+	@$(CC) $(CFLAGS) -c -o $@ $<
+
+.PHONY: all clean fclean re program clean_output precompile postcompile

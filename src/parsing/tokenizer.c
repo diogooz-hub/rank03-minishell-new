@@ -6,23 +6,17 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:31:17 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/08 19:13:46 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/08 23:18:57 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Handle operators
-void handle_operator(char *input, int *i, char *token, int *token_pos, t_token ***tokens, int *size)
+void handle_operator(char *input, int *i, char *token, int *token_pos, t_token ***tokens)
 {
-    if (*token_pos > 0)
-    {
-        // Ensure any previous token is added before handling the operator
-        add_token_if_needed(token, token_pos, tokens, size, STRING);  // Passing STRING for any previous content
-    }
-    
     token[(*token_pos)++] = input[*i];  // Add operator character to token
-    
+
     // Handle special cases for multi-character operators (e.g., "&&", "||", "<<", ">>")
     if ((input[*i] == '<' && input[*i + 1] == '<') ||
         (input[*i] == '>' && input[*i + 1] == '>') ||
@@ -31,25 +25,29 @@ void handle_operator(char *input, int *i, char *token, int *token_pos, t_token *
     {
         token[(*token_pos)++] = input[++(*i)];  // Add the second character of the operator
     }
-    
+	/*
     token[*token_pos] = '\0';  // Null-terminate the token
-    
     // Directly create the OPERATOR token, no need for get_token_type
     t_token *new_token = create_token(OPERATOR, token);  // Create an OPERATOR token
     *tokens = add_token(*tokens, size, new_token);  // Add the token to the token array
     *token_pos = 0;  // Reset token position
+	*/
+	add_token_if_needed(token, token_pos, tokens, OPERATOR);
 }
 
 
-void handle_variable(char *input, int *i, char *token, int *token_pos, t_token ***tokens, int *size, int in_quotes, char quote_char)
+void handle_variable(char *input, int *i, char *token, int *token_pos, t_token ***tokens, int in_quotes, char quote_char)
 {
     // If inside single quotes, treat the variable as part of the string
     if (in_quotes && quote_char == '\'')
     {
+		/*
         token[*token_pos] = '\0';  // Terminate the preceding string
         t_token *new_token = create_token(STRING, token);  // Create a string token
         *tokens = add_token(*tokens, size, new_token);  // Add the string token
         *token_pos = 0;  // Reset token position
+		*/
+		add_token_if_needed(token, token_pos, tokens, STRING);
     }
 
     // Handle variables normally (outside quotes or inside double quotes)
@@ -80,14 +78,17 @@ void handle_variable(char *input, int *i, char *token, int *token_pos, t_token *
 		return;
     }
 
+	/*
     token[*token_pos] = '\0';  // Terminate the variable token
     t_token *new_token = create_token(VARIABLE, token);  // Create a variable token
     *tokens = add_token(*tokens, size, new_token);  // Add the variable token
     *token_pos = 0;  // Reset token position
+	*/
+	add_token_if_needed(token, token_pos, tokens, VARIABLE);
 }
 
 // Handle quoted strings and create the token directly within this function
-void handle_quoted_string(char *input, int *i, char *token, int *token_pos, int *in_quotes, char *quote_char, t_token ***tokens, int *size)
+void handle_quoted_string(char *input, int *i, char *token, int *token_pos, int *in_quotes, char *quote_char, t_token ***tokens)
 {
     *in_quotes = 1;
     *quote_char = input[*i];  // Store the type of quote (' or ")
@@ -111,14 +112,17 @@ void handle_quoted_string(char *input, int *i, char *token, int *token_pos, int 
             // Only add the string token if there's actual content before the variable
             if (*token_pos > 0)
             {
+				/*
                 token[*token_pos] = '\0';
                 t_token *new_token = create_token(STRING, token);
                 *tokens = add_token(*tokens, size, new_token);
                 *token_pos = 0;
+				*/
+				add_token_if_needed(token, token_pos, tokens, STRING);
             }
 
             // Call handle_variable to process the variable
-            handle_variable(input, i, token, token_pos, tokens, size, *in_quotes, *quote_char);
+            handle_variable(input, i, token, token_pos, tokens, *in_quotes, *quote_char);
             continue;  // After handling the variable, continue processing the string
         }
 
@@ -130,10 +134,13 @@ void handle_quoted_string(char *input, int *i, char *token, int *token_pos, int 
     // Add the remaining string token if necessary
     if (*token_pos > 0)
     {
+		/*
         token[*token_pos] = '\0';
         t_token *new_token = create_token(STRING, token);
         *tokens = add_token(*tokens, size, new_token);
         *token_pos = 0;
+		*/
+		add_token_if_needed(token, token_pos, tokens, STRING);
     }
 
     // Handle missing closing quote error
@@ -144,6 +151,11 @@ void handle_quoted_string(char *input, int *i, char *token, int *token_pos, int 
     }
 }
 
+void handle_tilde(char *token, int *token_pos, t_token ***tokens)
+{
+	token[(*token_pos)++] = '~';  // Add the tilde character
+	add_token_if_needed(token, token_pos, tokens, TILDE);
+}
 
 // Main tokenizer function
 t_token **tokenize(char *input)
@@ -152,7 +164,6 @@ t_token **tokenize(char *input)
     char token[1000];
     int token_pos = 0;
     int i = 0;
-    int size = 0;
     int in_quotes = 0;  // Track whether we are inside quotes
     char quote_char = '\0';  // Track which type of quote (' or ")
 
@@ -161,32 +172,31 @@ t_token **tokenize(char *input)
         if (is_whitespace(input[i]) && !in_quotes)
         {
             // Handle token end when not inside quotes
-            add_token_if_needed(token, &token_pos, &tokens, &size, STRING);
+            add_token_if_needed(token, &token_pos, &tokens, STRING);
         }
         else if (input[i] == '\'' || input[i] == '"')
         {
             // Handle quoted strings
-            add_token_if_needed(token, &token_pos, &tokens, &size, STRING);  // Add any previous token before handling quotes
-            handle_quoted_string(input, &i, token, &token_pos, &in_quotes, &quote_char, &tokens, &size);
+            add_token_if_needed(token, &token_pos, &tokens, STRING);  // Add any previous token before handling quotes
+            handle_quoted_string(input, &i, token, &token_pos, &in_quotes, &quote_char, &tokens);
         }
         else if (input[i] == '$' && (!in_quotes || quote_char == '"'))
         {
             // Handle variables
-            add_token_if_needed(token, &token_pos, &tokens, &size, STRING);  // Add any previous string token
-            handle_variable(input, &i, token, &token_pos, &tokens, &size, in_quotes, quote_char);
+            add_token_if_needed(token, &token_pos, &tokens, STRING);  // Add any previous string token
+            handle_variable(input, &i, token, &token_pos, &tokens, in_quotes, quote_char);
         }
         else if (is_operator(input[i]) && !in_quotes)
         {
             // Handle operators
-            add_token_if_needed(token, &token_pos, &tokens, &size, STRING);  // Add any previous token
-            handle_operator(input, &i, token, &token_pos, &tokens, &size);
+            add_token_if_needed(token, &token_pos, &tokens, STRING);  // Add any previous token
+            handle_operator(input, &i, token, &token_pos, &tokens);
         }
         else if (input[i] == '~' && !in_quotes)
         {
             // Handle tilde separately
-            add_token_if_needed(token, &token_pos, &tokens, &size, TILDE);
-            t_token *new_token = create_token(TILDE, "~");
-            tokens = add_token(tokens, &size, new_token);
+            add_token_if_needed(token, &token_pos, &tokens, TILDE);
+			handle_tilde(token, &token_pos, &tokens);
         }
         else
         {
@@ -197,7 +207,7 @@ t_token **tokenize(char *input)
     }
 
     // Add any remaining token
-    add_token_if_needed(token, &token_pos, &tokens, &size, STRING);
+    add_token_if_needed(token, &token_pos, &tokens, STRING);
 
     return tokens;
 }
