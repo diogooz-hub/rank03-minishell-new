@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:31:17 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/07 23:35:07 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/08 19:13:46 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ void handle_variable(char *input, int *i, char *token, int *token_pos, t_token *
     {
         // Invalid variable, treat as a standalone '$'
         (*i)--;  // Step back so that the next character can be handled
+		token[(*token_pos) - 1] = '\0';  // Null-terminate the variable token
+		*token_pos = 0;  // Reset token position
+		return;
     }
 
     token[*token_pos] = '\0';  // Terminate the variable token

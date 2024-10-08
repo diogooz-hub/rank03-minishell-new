@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 LDLIBS = -lreadline
 NAME = minishell
 SRCS = src/minishell.c src/execute.c src/parse.c src/debugers.c\
@@ -18,23 +18,28 @@ RM = rm -f
 GREEN=\033[0;32m
 NC=\033[0m
 
-all: $(NAME)
+all: $(NAME) clean_output
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS) && echo -e "${GREEN}\n--------------------\n-MINISHELL COMPILED-\n--------------------\n---made by: pedalexa\n---------------dpaco\n--------------------${NC}"
+	@echo -e "\nLets pray it compiles..."
+	@echo "Generating executables..."
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(LDLIBS) && echo -e "${GREEN}\n--------------------\n-MINISHELL COMPILED-\n--------------------\n${NC}"
 
 $(LIBFT):
-	make -s -C libraries/Libft
-	make bonus -s -C libraries/Libft
+	@make -s -C libraries/Libft
+	@make bonus -s -C libraries/Libft
+
+clean_output: clean
+	@echo "test with some care"
 
 clean:
-	$(RM) $(OBJS)
-	make clean -s -C libraries/Libft
+	@$(RM) $(OBJS)
+	@make clean -s -C libraries/Libft
 
 fclean: clean
-	$(RM) $(NAME)
-	make fclean -s -C libraries/Libft
+	@$(RM) $(NAME)
+	@make fclean -s -C libraries/Libft
 
 re: fclean $(NAME)
 
-.PHONY: all clean fclean re program
+.PHONY: all clean fclean re program clean_output
