@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.utils.c                                  :+:      :+:    :+:   */
+/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:56:42 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/07 18:40:52 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/08 19:15:45 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_token *create_token(t_token_type type, const char *content)
 // Add a token to the array of tokens
 t_token **add_token(t_token **tokens, int *size, t_token *new_token)
 {
+	//eliminar o size e fazer o check do array aqui
     t_token **new_tokens;
     int i;
 
