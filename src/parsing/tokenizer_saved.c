@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:55:51 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/07 17:58:37 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 08:49:16 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int handle_quoted_string(char *input, int *i, char *token, int *token_pos, int *
 // Check if the character is an operator
 int is_operator(char c)
 {
-    return (c == '|' || c == '<' || c == '>' || c == '&');
+    return (c == '|' || c == '<' || c == '>');
 }
 
 // Handle variables

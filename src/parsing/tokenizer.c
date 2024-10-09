@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:31:17 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/08 23:18:57 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 19:28:41 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 // Handle operators
 void handle_operator(char *input, int *i, char *token, int *token_pos, t_token ***tokens)
 {
-    token[(*token_pos)++] = input[*i];  // Add operator character to token
+	t_token_type token_type;
 
-    // Handle special cases for multi-character operators (e.g., "&&", "||", "<<", ">>")
+	if (input[*i] == '|')
+		token_type = PIPE;
+	else
+		token_type = REDIRECTION;
+    token[(*token_pos)++] = input[*i];  // Add operator character to token
+    // Handle special cases for multi-character operators (e.g. "<<", ">>")
     if ((input[*i] == '<' && input[*i + 1] == '<') ||
-        (input[*i] == '>' && input[*i + 1] == '>') ||
-        (input[*i] == '&' && input[*i + 1] == '&') ||
-        (input[*i] == '|' && input[*i + 1] == '|'))
+        (input[*i] == '>' && input[*i + 1] == '>'))
     {
         token[(*token_pos)++] = input[++(*i)];  // Add the second character of the operator
     }
@@ -32,7 +35,7 @@ void handle_operator(char *input, int *i, char *token, int *token_pos, t_token *
     *tokens = add_token(*tokens, size, new_token);  // Add the token to the token array
     *token_pos = 0;  // Reset token position
 	*/
-	add_token_if_needed(token, token_pos, tokens, OPERATOR);
+	add_token_if_needed(token, token_pos, tokens, token_type);
 }
 
 

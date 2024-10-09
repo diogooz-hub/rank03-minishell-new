@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:08:42 by dpaco             #+#    #+#             */
-/*   Updated: 2024/09/26 08:48:21 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 20:49:34 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void execute_redirections(cmd_list *cmd)
     }
     if (cmd->fd_master[1] != STDOUT_FILENO)
     {
-		printf("duplicating output file descriptor for output\n");
+		//printf("duplicating output file descriptor for output\n");
         if (dup2(cmd->fd_master[1], STDOUT_FILENO) == -1)
         {
             perror("error duplicating output file descriptor for output");

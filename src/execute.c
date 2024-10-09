@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:39:36 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/06 15:50:43 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 20:50:48 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	command_on_parent(cmd_list *cmd, int og_stdin, int og_stdout)
 {
+	//printf("Executing command on parent\n");
 	execute_redirections(cmd);
 	cmd->ft_exec(&cmd);
 	restore_fds(cmd, og_stdin, og_stdout);
@@ -21,6 +22,7 @@ void	command_on_parent(cmd_list *cmd, int og_stdin, int og_stdout)
 
 void	child_exec(cmd_list *cmd, int og_stdin, int og_stdout)
 {
+	//printf("Executing command on child\n");
 	execute_redirections(cmd);
 	cmd->ft_exec(&cmd);
 	restore_fds(cmd, og_stdin, og_stdout);

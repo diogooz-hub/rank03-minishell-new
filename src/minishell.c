@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:33:57 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/02 22:00:26 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 19:16:58 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		program.input = readline("minishell: ");
+		program.input = readline("homemade minishell: ");
 		if (!program.input)
 		{
 			free_program(program);

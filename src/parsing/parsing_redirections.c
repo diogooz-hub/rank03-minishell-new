@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 08:22:54 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/01 19:19:43 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 20:50:00 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	create_temp_file(cmd_list *cmd, char *tmp_file)
 	{
 		set_exit_status(cmd, 1);
 		perror("error 4 on redirection");
-		exit(1);
 	}
 	return (tmp_fd);
 }
@@ -58,7 +57,6 @@ void	heredoc_redirection(cmd_list *cmd, char *delimiter)
 	{
 		set_exit_status(cmd, 1);
 		perror("error opening heredoc tmp file");
-		exit(1);
 	}
 	cmd->fd_master[0] = tmp_fd;
 	free(tmp_file);
@@ -73,7 +71,6 @@ void	input_redirection(cmd_list *cmd, char *file)
 	{
 		set_exit_status(cmd, 1);
 		perror("error 1 on redirection");
-		exit(1);
 	}
 	cmd->fd_master[0] = fd;
 }
@@ -87,7 +84,6 @@ void	output_redirection(cmd_list *cmd, char *file)
 	{
 		set_exit_status(cmd, 1);
 		perror("error 2 on redirection");
-		exit(1);
 	}
 	cmd->fd_master[1] = fd;
 }
@@ -97,11 +93,11 @@ void	append_redirection(cmd_list *cmd, char *file)
 	int		fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	//printf("fd: %d\n", fd);
 	if (fd == -1)
 	{
 		set_exit_status(cmd, 1);
 		perror("error 3 on redirection");
-		exit(1);
 	}
 	cmd->fd_master[1] = fd;
 }

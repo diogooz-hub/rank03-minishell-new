@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:10:03 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/08 23:06:29 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/09 20:49:29 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void parse(t_program *program)
         return;
 	//printf("Input is valid\n");
     tokens = tokenize(program->input);
-	print_tokens1(tokens);
+	//print_tokens1(tokens);
 	expand_tokens(tokens, program);
 	//printf("Expanded tokens\n");
 	//print_tokens1(tokens);
