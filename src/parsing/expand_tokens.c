@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:32:53 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/06 22:02:00 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/10 18:34:36 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ void expand_tokens(t_token **tokens, t_program *program)
                     free(tokens[i]->content);
                     tokens[i]->content = ft_strdup(expanded_value); // Make a copy of the expanded value
                 }
+				else
+				{
+					free(tokens[i]->content);
+					tokens[i]->content = ft_strdup("");  // Set to empty string if the variable is not found
+					tokens[i]->type = STRING;  // Change the type to STRING
+				}
             }
         }
         i++;
