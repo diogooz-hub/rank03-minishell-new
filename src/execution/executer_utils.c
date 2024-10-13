@@ -6,11 +6,18 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 09:17:51 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/01 19:18:15 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/13 16:40:13 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool check_if_full_path(char *s)
+{
+	if (s[0] == '/' || (s[0] == '.' && s[1] == '/'))
+		return (true);
+	return (false);
+}
 
 char	*search_env(char *env_name, t_env_var *env)
 {
@@ -56,7 +63,7 @@ void	check_process(cmd_list *cmd)
 		return ;
 	else if (!strcmp(cmd->content[0], "exit"))
 		cmd->on_parent = true;
-	else if (is_single_cmd(cmd->content[0], "export") && cmd->content[1])
+	else if (!strcmp(cmd->content[0], "export") && cmd->content[1])
 		cmd->on_parent = true;
 	else if (!strcmp(cmd->content[0], "export"))
 		cmd->on_parent = true;
@@ -80,7 +87,7 @@ void	set_exec(cmd_list *cmd)
 		cmd->ft_exec = pwd;
 	else if (!strcmp(cmd->content[0], "env"))
 		cmd->ft_exec = env;
-	else if (is_single_cmd(cmd->content[0], "export") && cmd->content[1])
+	else if (!strcmp(cmd->content[0], "export") && cmd->content[1])
 		cmd->ft_exec = export_with_args;
 	else if (!strcmp(cmd->content[0], "export"))
 		cmd->ft_exec = export_no_args;
@@ -88,6 +95,8 @@ void	set_exec(cmd_list *cmd)
 		cmd->ft_exec = unset;
 	else if (!strcmp(cmd->content[0], "cd"))
 		cmd->ft_exec = cd;
+	else if (check_if_full_path(cmd->content[0]))
+		cmd->ft_exec = default_exec_bin;
 	else
 		cmd->ft_exec = default_exec;
 }

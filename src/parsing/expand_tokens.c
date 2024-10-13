@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:32:53 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/10 18:34:36 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/13 18:11:32 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,37 +83,3 @@ void expand_tokens(t_token **tokens, t_program *program)
         i++;
     }
 }
-
-
-/*
-{
-	int		i;
-
-	i = 0;
-	while (cmd->content[i])
-	{
-		if (ft_strcmp(cmd->content[i], "~") == 0)
-		{
-			cmd->content[i] = expand_tilde(cmd);
-			printf("\nExpander result: %s\n", cmd->content[i]);
-		}
-		else if (ft_strcmp(cmd->content[i], "$?") == 0)
-		{
-			//printf("checking exit status\n");
-			free(cmd->content[i]);
-			cmd->content[i] = ft_itoa(cmd->prog->exit_status);
-			//printf("\nExpander result: %s\n", cmd->content[i]);
-		}
-		else if (cmd->content[i][0] == '$')
-		{
-			cmd->content[i] = expand_env_var(cmd->content[i], cmd);
-			printf("\nExpander result: %s\n", cmd->content[i]);
-		}
-		else if (strstr(cmd->content[i], "$("))
-			cmd->content[i] = expand_cmd_sub(cmd->content[i]);
-		else if (strstr(cmd->content[i], "$(("))
-			cmd->content[i] = expand_arithmetic(cmd->content[i]);
-		i++;
-	}
-}
-*/

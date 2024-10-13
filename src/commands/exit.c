@@ -2,7 +2,6 @@
 
 void	exit_shell(cmd_list **cmd)
 {
-	(void)cmd;
-	//funtion to free all the memory
-	exit(0);
+	free_program((*cmd)->prog);
+	exit(EXIT_SUCCESS);
 }

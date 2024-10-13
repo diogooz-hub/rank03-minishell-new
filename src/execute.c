@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:39:36 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/09 20:50:48 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/13 20:22:13 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	child_exec(cmd_list *cmd, int og_stdin, int og_stdout)
 	execute_redirections(cmd);
 	cmd->ft_exec(&cmd);
 	restore_fds(cmd, og_stdin, og_stdout);
-	exit(EXIT_SUCCESS);
+	exit(cmd->prog->exit_status);
 }
 
 void	parent_wait(pid_t pid, cmd_list *cmd)
@@ -60,13 +60,11 @@ void	command_on_child(cmd_list *cmd, int og_stdin, int og_stdout)
 		parent_wait(pid, cmd);
 	else
 	{
-		perror("fork");
-		set_exit_status(cmd, 1);
-		exit(EXIT_FAILURE);
-		//exec_error(cmd, "fork");
+		exec_error(cmd, "fork");
+		return ;
 	}
 }
-void	command_execution(cmd_list *cmd)
+void	command_execution(cmd_list *cmd, int process_count)
 {
 	int og_stdin;
 	int og_stdout;
@@ -77,9 +75,10 @@ void	command_execution(cmd_list *cmd)
 	{
 		set_exit_status(cmd, 1);
 		exit(EXIT_FAILURE);
-		//exec_error(cmd, "dup");
+		exec_error(cmd, "execution");
+		return ;
 	}
-	if (cmd->on_parent)
+	if (cmd->on_parent && process_count == 1)
 		command_on_parent(cmd, og_stdin, og_stdout);
 	else
 		command_on_child(cmd, og_stdin, og_stdout);
@@ -88,8 +87,12 @@ void	command_execution(cmd_list *cmd)
 
 void	execution(cmd_list *cmds)
 {
+	int cmd_count;
+
+	cmd_count = 0;
     while (cmds)
     {
+		cmd_count++;
         if (cmds->content[0])
         {
 			//printf("Executing command: %s\n", cmds->content[0]);
@@ -101,7 +104,7 @@ void	execution(cmd_list *cmds)
 			check_process(cmds);
             if (!cmds->built_in)
                 cmds->path = find_path(cmds->env, cmds->content[0]);
-            command_execution(cmds);
+            command_execution(cmds, cmd_count);
         }
         cmds = cmds->next;
         //printf("Moving to next command\n");
@@ -110,7 +113,5 @@ void	execution(cmd_list *cmds)
 
 void executer (cmd_list *cmds)
 {
-	//int status;
-	//pid_t pid;
 	execution(cmds);
 }

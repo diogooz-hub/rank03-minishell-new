@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:33:57 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/09 19:16:58 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/13 20:15:44 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	init_program(t_program *program, char **envp)
 {
 	program->exit_status = 0;
-	program->env = NULL;
 	program->cmds = NULL;
 	program->input = NULL;
 	program->init_env = envp;
+	program->env = NULL;
 	program->env_sorted = NULL;
 	init_env(program);
 }
@@ -54,7 +54,7 @@ int	main(int ac, char **av, char **envp)
 		program.input = readline("homemade minishell: ");
 		if (!program.input)
 		{
-			free_program(program);
+			free_program(&program);
 			printf("exit");
 			exit(-1);
 		}
@@ -62,8 +62,8 @@ int	main(int ac, char **av, char **envp)
 		parse(&program);
 		if (program.cmds && program.cmds->content[0])
 			executer(program.cmds);
-		//printf("exit_status: %d\n", program.exit_status);
-		free_program(program);
+		printf("exit_status: %d\n", program.exit_status);
+		free_program_continue(&program);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/08 23:15:58 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/13 20:05:05 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,6 @@ typedef struct s_token
     char            *content;
 }   t_token;
 
-/*
-typedef struct s_token_array
-{
-    t_token *tokens;
-    int     size;
-} t_token_array;
-*/
-
 typedef struct	s_env_var
 {
 	char 				*content;
@@ -89,38 +81,11 @@ typedef struct s_program
 
 
 //PROGRAM FUNCTIONS
+void	init_env(t_program *program);
 void 	ctrl_slash(int signum);
 void 	ctrl_c(int signum);
-void 	free_program(t_program program);
-
-
-//PARSE FUNCTIONS
-void	parse(t_program *program);
-int		is_single_cmd(char *str, char *cmd);
-int		is_quotes(char *str);
-void	parse_name_value(t_env_var *node);
-t_token **tokenize(char *input);
-void	tokenize_input(t_token **tokens, int *i, cmd_list *cmd);
-void	expand_tokens(t_token **tokens, t_program *program);
-void	set_file_descriptors(t_token **tokens, int *i, cmd_list *cmd);
-void 	free_tokens(t_token **tokens);
-int 	is_operator(char c);
-int 	is_whitespace(char c);
-t_token *create_token(t_token_type type, const char *content);
-t_token **add_token(t_token **tokens, t_token *new_token);
-void 	add_token_if_needed(char *token, int *token_pos, t_token ***tokens, t_token_type token_type);
-
-
-//EXECUTE FUNCTIONS
-void	executer(cmd_list *cmd);
-void	set_exec(cmd_list *cmd);
-void	check_builtin(cmd_list *cmd);
-void	check_process(cmd_list *cmd);
-char	*find_path(t_env_var *env, char *cmd);
-void	execute_redirections(cmd_list *cmd);
-void 	restore_fds(cmd_list *cmd, int og_stdin, int og_stdout);
-void	setup_pipes(cmd_list *cmd);
-void 	close_pipe_ends(cmd_list *cmd, int is_parent);
+void 	free_program(t_program *program);
+void 	free_program_continue(t_program *program);
 
 
 //BUILT-IN FUNCTIONS
@@ -134,7 +99,37 @@ void	export_with_args(cmd_list **cmd);
 void	pwd(cmd_list **cmd);
 void	unset(cmd_list **cmd);
 void	default_exec(cmd_list **cmd);
-void	init_env(t_program *program);
+void	default_exec_bin(cmd_list **cmd);
+
+
+//PARSE FUNCTIONS
+bool	validate_input(t_program *program);
+void	parse(t_program *program);
+t_token **tokenize(char *input);
+t_token *create_token(t_token_type type, const char *content);
+t_token **add_token(t_token **tokens, t_token *new_token);
+void 	add_token_if_needed(char *token, int *token_pos, t_token ***tokens, t_token_type token_type);
+void	expand_tokens(t_token **tokens, t_program *program);
+void	set_file_descriptors(t_token **tokens, int *i, cmd_list *cmd);
+//PARSE UTILS FUNCTIONS
+int 	is_operator(char c);
+int 	is_whitespace(char c);
+void 	free_tokens(t_token **tokens);
+
+
+//EXECUTE FUNCTIONS
+void	executer(cmd_list *cmd);
+char	*find_path(t_env_var *env, char *cmd);
+void	execute_redirections(cmd_list *cmd);
+void	setup_pipes(cmd_list *cmd);
+//EXECUTE UTILS FUNCTIONS
+void	set_exec(cmd_list *cmd);
+void	check_builtin(cmd_list *cmd);
+void	check_process(cmd_list *cmd);
+void 	restore_fds(cmd_list *cmd, int og_stdin, int og_stdout);
+void 	close_pipe_ends(cmd_list *cmd, int is_parent);
+bool 	check_if_full_path(char *s);
+void 	exec_error(cmd_list *cmd, char *error);
 
 
 // UTILS FUNCTIONS
@@ -147,7 +142,7 @@ void		copy_array_to_list(char **arr, t_env_var **list);
 char		**copy_list_to_array(t_env_var **list);
 int			ft_lstsize_minish(t_env_var **lst);
 void		set_exit_status(cmd_list *cmd, int status);
-bool		validate_input(t_program *program);
+void		parse_name_value(t_env_var *node);
 
 
 // DEBUGERS

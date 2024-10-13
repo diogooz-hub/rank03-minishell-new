@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 09:14:49 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/10 19:55:40 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/13 17:40:58 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,3 @@ void	echo(cmd_list	**cmd)
 	if (strcmp(s_array[1], "-n"))
 		printf("\n");
 }
-
-/*
------- simple version --------
-void	echo(char **args)
-{
-	int i;
-
-	if (check_if_option(args[1]))
-		i = 2;
-	else
-		i = 1;
-	if (!args[i])
-	{
-		printf("\n");
-		return ;
-	}
-	while (args[i])
-	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (!check_if_option(args[1]))
-		printf("\n");
-}
-*/

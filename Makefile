@@ -4,9 +4,9 @@ LDLIBS = -lreadline
 NAME = minishell
 SRCS = src/minishell.c src/execute.c src/parse.c src/debugers.c\
 		src/commands/export.c src/commands/unset.c src/commands/cd.c src/commands/clear.c src/commands/echo.c src/commands/env.c src/commands/exit.c src/commands/pwd.c \
-		src/execution/default_exec.c src/execution/execute_errors.c src/execution/fd_redirection.c \
-		src/parsing/tokenizer.c src/parsing/tokenizer_utils.c src/parsing/is_single_cmd.c src/parsing/parsing_redirections.c src/parsing/expand_tokens.c\
-		src/utils/init_env.c src/parsing/is_quotes.c src/utils/executer_utils.c src/utils/utils.c src/utils/exit_status.c src/utils/parser_utils.c src/utils/clean_program.c
+		src/execution/default_exec.c src/execution/execution_errors.c src/execution/fd_redirection.c src/execution/executer_utils.c \
+		src/parsing/tokenizer.c src/parsing/tokenizer_utils.c src/parsing/parsing_redirections.c src/parsing/expand_tokens.c src/parsing/parser_utils.c \
+		src/utils/init_env.c src/utils/utils.c src/utils/exit_status.c src/utils/clean_program.c
 
 LIBFT = libraries/Libft/libft.a
 

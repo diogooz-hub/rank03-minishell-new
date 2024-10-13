@@ -1,35 +1,5 @@
 #include "../../includes/minishell.h"
 
-//void	parse_vars(t_data *data, t_env_var **vars_env);
-
-// Criar duas funçoes diferentes, uma para export sem arguments e uma para export com arguments
-
-//Sort com array
-
-/* void	sort_env(char **envir, int len)
-{
-	int	i;
-	int	h;
-	char *temp;
-
-	i = 0;
-	while(i < len - 1)
-	{
-		h = 0;
-		while (h < len - 1)
-		{
-			if (ft_strncmp(envir[h], envir[h + 1], ft_strlen(envir[h]) + ft_strlen(envir[h + 1])) > 0)
-			{
-				temp = envir[h];
-				envir[h] = envir[h + 1];
-				envir[h + 1] = temp;
-			}
-			h++;
-		}
-		i++;
-	}
-} */
-
 void	sort_env(char **envir, int len)
 {
 	int	i;
@@ -124,47 +94,3 @@ void	export_with_args(cmd_list **cmd)
 {
 	add_var_to_env((*cmd)->content + 1, &(*cmd)->env);
 }
-
-
-/* void	parse_vars(t_data *data, t_env_var **vars_env)
-{
-	int	i;
-	int	h;
-	int	is_quote;
-
-	i = 0;
-	h = 0;
-	is_quote = 0;
-	while (data->str[i] != 32)
-		i++;
-	i++;
-	h = i;
-	while (data->str[i])
-	{
-		if (data->str[i] == 39 || data->str[i] == 34)
-			is_quote++;
-		
-	}
-} */
-
-/* void	parse_vars(t_data *data, t_env_var **vars_env)
-{
-	t_env_var	*temp;
-	int			i;
-
-	temp = *vars_env;
-	(void)data;
-	while (temp)
-	{
-		i = 0;
-		while (temp->content[i])
-		{
-			if (temp->content[i] == '=')
-			{
-				temp->value = ft_strdup(temp->content + i + 1);
-			}
-			i++;
-		}
-		temp = temp->next;
-	}
-} */
