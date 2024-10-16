@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/13 20:05:05 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/16 20:34:30 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void	set_file_descriptors(t_token **tokens, int *i, cmd_list *cmd);
 int 	is_operator(char c);
 int 	is_whitespace(char c);
 void 	free_tokens(t_token **tokens);
+char	*update_token(char *current_token, char c);
 
 
 //EXECUTE FUNCTIONS

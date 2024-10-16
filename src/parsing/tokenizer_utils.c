@@ -6,11 +6,31 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:56:42 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/08 23:19:48 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/16 20:51:37 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*update_token(char *current_token, char c)
+{
+	char	*new_token;
+	int		i;
+
+	new_token = malloc(ft_strlen(current_token) + 2);
+	if (!new_token)
+		return (NULL);
+	i = 0;
+	while (current_token[i])
+	{
+		new_token[i] = current_token[i];
+		i++;
+	}
+	new_token[i] = c;
+	new_token[i + 1] = '\0';
+	free(current_token);
+	return (new_token);
+}
 
 // Free the tokens array
 void free_tokens(t_token **tokens)
@@ -94,13 +114,16 @@ t_token **add_token(t_token **tokens, t_token *new_token)
 }
 
 // Add tokens if needed
-void add_token_if_needed(char *token, int *token_pos, t_token ***tokens, t_token_type token_type)
+void add_token_if_needed(char *token, t_token ***tokens, t_token_type token_type)
 {
-    if (*token_pos > 0)
+    if (token[0] != '\0')
     {
-        token[*token_pos] = '\0';  // Null-terminate the token
+        //token[*token_pos] = '\0';  // Null-terminate the token
         t_token *new_token = create_token(token_type, token);  // Create a new token with the provided type
         *tokens = add_token(*tokens, new_token);  // Add the token to the array
-        *token_pos = 0;  // Reset the position for the next token
+        //*token_pos = 0;  // Reset the position for the next token
+		free(token);
+		token = malloc(1);
+		token[0] = '\0';
     }
 }

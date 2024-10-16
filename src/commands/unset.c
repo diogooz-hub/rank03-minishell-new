@@ -38,23 +38,12 @@ void	exec_unset(t_env_var **list, char *var)
     }
 }
 
-/* void	unset(t_data *data, t_env_var **list)
-{
-	int	i;
-
-	i = 1;
-	while (data->input[i])
-	{
-		exec_unset(list, data->input[i]);
-		i++;
-	}
-} */
-
 void	unset(cmd_list **cmd)
 {
 	int	i;
 
 	i = 1;
+	printf("unset check\n");
 	while ((*cmd)->content[i])
 	{
 		exec_unset(&(*cmd)->env, (*cmd)->content[i]);

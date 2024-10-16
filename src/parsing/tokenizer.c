@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:31:17 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/09 19:28:41 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/16 20:53:27 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,15 +163,22 @@ void handle_tilde(char *token, int *token_pos, t_token ***tokens)
 // Main tokenizer function
 t_token **tokenize(char *input)
 {
-    t_token **tokens = NULL;
-    char token[1000];
+    t_token **tokens;
+    char *token;
     int token_pos = 0;
-    int i = 0;
-    int in_quotes = 0;  // Track whether we are inside quotes
-    char quote_char = '\0';  // Track which type of quote (' or ")
+    int i;
+    int in_quotes;  // Track whether we are inside quotes
+    char quote_char;  // Track which type of quote (' or ")
 
+	tokens == NULL;
+	token = malloc(1);
+	token[0] = '\0';
+	in_quotes = 0;
+	quote_char = '\0';
+	i = 0;
     while (input[i] != '\0')
     {
+		token = update_token(token, input[i]);
         if (is_whitespace(input[i]) && !in_quotes)
         {
             // Handle token end when not inside quotes
@@ -212,5 +219,7 @@ t_token **tokenize(char *input)
     // Add any remaining token
     add_token_if_needed(token, &token_pos, &tokens, STRING);
 
-    return tokens;
+	if (token)
+		free(token);
+	return tokens;
 }

@@ -61,8 +61,11 @@ void	export_no_args(cmd_list **cmd)
 	char	*final_str;
 
 	i = 0;
+	printf("export check\n");
 	(*cmd)->prog->env_sorted = copy_list_to_array(&(*cmd)->env);
+	printf("export check1\n");
 	sort_env((*cmd)->prog->env_sorted, env_len((*cmd)->prog->env_sorted));
+	printf("export check2\n");
 	while ((*cmd)->prog->env_sorted[i])
 	{
 		declare_x = ft_strjoin("declare -x ", (*cmd)->prog->env_sorted[i]);
