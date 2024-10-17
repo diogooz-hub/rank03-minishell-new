@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/16 20:34:30 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/17 18:47:21 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,15 @@ void	parse(t_program *program);
 t_token **tokenize(char *input);
 t_token *create_token(t_token_type type, const char *content);
 t_token **add_token(t_token **tokens, t_token *new_token);
-void 	add_token_if_needed(char *token, int *token_pos, t_token ***tokens, t_token_type token_type);
+// void 	add_token_if_needed(char *token, int *token_pos, t_token ***tokens, t_token_type token_type);
+void	add_token_if_needed(char **token, t_token ***tokens, t_token_type token_type);
 void	expand_tokens(t_token **tokens, t_program *program);
 void	set_file_descriptors(t_token **tokens, int *i, cmd_list *cmd);
 //PARSE UTILS FUNCTIONS
 int 	is_operator(char c);
 int 	is_whitespace(char c);
 void 	free_tokens(t_token **tokens);
-char	*update_token(char *current_token, char c);
+void	update_token(char **current_token, char c);
 
 
 //EXECUTE FUNCTIONS

@@ -37,11 +37,13 @@ char	*insert_quotes(char *env, int len)
 	temp = ft_strdup(env);
 	free(env);
 	new = (char *)malloc((len + 2) * sizeof(char));
-	while (temp[i] != '=')
+	while (temp[i] != '\0' && temp[i] != '=')
 	{
 		new[i] = temp[i];
 		i++;
 	}
+	if (temp[i] == '\0')
+		return (new);
 	new[i++] = '=';
 	new[i++] = 34;
 	while (temp[i - 1] != '\0')
@@ -61,16 +63,15 @@ void	export_no_args(cmd_list **cmd)
 	char	*final_str;
 
 	i = 0;
-	printf("export check\n");
 	(*cmd)->prog->env_sorted = copy_list_to_array(&(*cmd)->env);
-	printf("export check1\n");
 	sort_env((*cmd)->prog->env_sorted, env_len((*cmd)->prog->env_sorted));
-	printf("export check2\n");
 	while ((*cmd)->prog->env_sorted[i])
 	{
+		//printf("check\n");
 		declare_x = ft_strjoin("declare -x ", (*cmd)->prog->env_sorted[i]);
+		//printf("check2\n");
 		final_str = insert_quotes(declare_x, ft_strlen(declare_x));
-		printf("%s\n", final_str);
+		printf("%s\n", declare_x);
 		i++;
 		free (final_str);
 	}
