@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:33:57 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/15 23:03:21 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:10:40 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	init_program(t_program *program, char **envp)
 	program->exit_status = 0;
 	program->cmds = NULL;
 	program->input = NULL;
-	program->init_env = envp;
-	program->env = NULL;
-	program->env_sorted = NULL;
-	init_env(program);
+	//program->init_env = envp;
+	program->env_list = NULL;
+	program->env_array = NULL;
+	init_env(program, envp);
 }
 void ctrl_c(int signum)
 {

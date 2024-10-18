@@ -1,13 +1,14 @@
 #include "../../includes/minishell.h"
 
-t_env_var	*ft_lstnew_minish(char *content)
+/*
+t_env_var	*ft_lstnew_minish(char *var)
 {
 	t_env_var	*new;
 
 	new = malloc(sizeof(t_env_var));
 	if (new == NULL)
 		return (0);
-	new -> content = content;
+	new -> var = var;
 	new -> next = NULL;
 	return (new);
 }
@@ -43,6 +44,7 @@ int	ft_lstsize_minish(t_env_var **lst)
 	}
 	return (i);
 }
+*/
 
 int	env_len(char **arr)
 {
@@ -85,6 +87,7 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
+/*
 void	copy_array_to_list(char **arr, t_env_var **list)
 {
 	int			i;
@@ -95,6 +98,27 @@ void	copy_array_to_list(char **arr, t_env_var **list)
 	{
 		node = ft_lstnew_minish(arr[i]);
 		ft_lstadd_back_minish(list, node);
+		i++;
+	}
+}
+*/
+
+void	update_env_array(char ***env_array, t_env_var **env_list)
+{
+	int			size;
+	t_env_var	*temp;
+	int			i;
+
+	size = ft_lstsize_minish(env_list);
+	//free the previous array
+	*env_array = (char **)malloc((size + 1) * sizeof(char *));
+	(*env_array)[size] = NULL;
+	temp = *env_list;
+	i = 0;
+	while (i < size)
+	{
+		(*env_array)[i] = ft_strdup(temp->var);
+		temp = temp->next;
 		i++;
 	}
 }
@@ -113,7 +137,7 @@ char	**copy_list_to_array(t_env_var **list)
 	i = 0;
 	while (i < size)
 	{
-		array[i] = ft_strdup(temp->content);
+		array[i] = ft_strdup(temp->var);
 		temp = temp->next;
 		i++;
 	}

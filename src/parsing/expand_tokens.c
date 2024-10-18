@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:32:53 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/13 18:11:32 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:40:37 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Expand tilde (~) using the HOME environment variable from program->env
 char *expand_tilde(t_program *program)
 {
-    t_env_var *temp = program->env;
+    t_env_var *temp = program->env_list;
 
     while (temp)
     {
@@ -29,7 +29,7 @@ char *expand_tilde(t_program *program)
 // Expand environment variables using program->env
 char *expand_env_var(char *str, t_program *program)
 {
-    t_env_var *temp = program->env;
+    t_env_var *temp = program->env_list;
 
     // The variable name starts after the '$' symbol
     while (temp)

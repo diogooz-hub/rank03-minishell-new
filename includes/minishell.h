@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:47:21 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:39:29 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,16 @@ typedef struct s_token
 
 typedef struct	s_env_var
 {
-	char 				*content;
+	char 				*var;
 	char				*name;
 	char				*value;
 	struct s_env_var	*next;
+	struct s_env_var	*prev;
 }	t_env_var;
 
 typedef struct c_list
 {
-	struct s_env_var	*env;
+	//struct s_env_var	*env;
 	struct s_program	*prog;
 	char				*path;
 	char				**content;
@@ -72,16 +73,16 @@ typedef struct c_list
 typedef struct s_program
 {
 	char				*input;
-	char				**env_sorted;
-	char				**init_env;
+	//char				**init_env;
 	int					exit_status;
-	struct s_env_var	*env;
+	char				**env_array;
+	struct s_env_var	*env_list;
 	struct c_list		*cmds;
 }	t_program;
 
 
 //PROGRAM FUNCTIONS
-void	init_env(t_program *program);
+void	init_env(t_program *program, char **envp);
 void 	ctrl_slash(int signum);
 void 	ctrl_c(int signum);
 void 	free_program(t_program *program);
@@ -145,6 +146,7 @@ char		**copy_list_to_array(t_env_var **list);
 int			ft_lstsize_minish(t_env_var **lst);
 void		set_exit_status(cmd_list *cmd, int status);
 void		parse_name_value(t_env_var *node);
+void		update_env_array(char ***env_array, t_env_var **env_list);
 
 
 // DEBUGERS

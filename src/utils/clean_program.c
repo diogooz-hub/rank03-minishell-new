@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:28:29 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/17 20:12:16 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:41:56 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ void 	free_program(t_program *program)
 	if (program->cmds)
 		free_cmds(&program->cmds);
 	printf("free_env\n");
-	if (program->env)
-		free_env(program->env);
+	if (program->env_list)
+		free_env(program->env_list);
 	printf("free_env_sorted\n");
-	if (program->env_sorted)
-		free_env_sorted(program->env_sorted);
+	if (program->env_array)
+		free_env_sorted(program->env_array);
 }
 void 	free_program_continue(t_program *program)
 {

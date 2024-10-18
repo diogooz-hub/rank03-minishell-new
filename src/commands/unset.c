@@ -2,8 +2,8 @@
 
 void free_node(t_env_var *node)
 {
-	if (node->content)
-		free(node->content);
+	if (node->var)
+		free(node->var);
 	if (node->name)
 		free(node->name);
 	if (node->value)
@@ -46,7 +46,8 @@ void	unset(cmd_list **cmd)
 	printf("unset check\n");
 	while ((*cmd)->content[i])
 	{
-		exec_unset(&(*cmd)->env, (*cmd)->content[i]);
+		exec_unset(&(*cmd)->prog->env_list, (*cmd)->content[i]);
 		i++;
 	}
+	update_env_array(&(*cmd)->prog->env_array, &(*cmd)->prog->env_list);
 }

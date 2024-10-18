@@ -6,13 +6,13 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:10:03 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/17 08:48:24 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:13:59 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-cmd_list	*new_cmd_node(t_env_var *env, t_program *program)
+cmd_list	*new_cmd_node(t_program *program)
 {
 	cmd_list	*new_node;
 
@@ -20,7 +20,7 @@ cmd_list	*new_cmd_node(t_env_var *env, t_program *program)
 	if (!new_node)
 		return (NULL);
 	new_node->prog = program;
-	new_node->env = env;
+	//new_node->env = env;
 	new_node->content = NULL;
 	new_node->path = NULL;
 	new_node->next = NULL;
@@ -64,7 +64,7 @@ void add_token_to_cmd(cmd_list *cmd, char *token_value)
 
 void	handle_pipe_token(cmd_list **current_node, cmd_list **last_node, t_program *program)
 {
-	*current_node = new_cmd_node(program->env, program);
+	*current_node = new_cmd_node(program);
 	if (*last_node)
 	{
 		(*last_node)->next = *current_node;
@@ -79,7 +79,7 @@ void	handle_cmd_token(cmd_list **current_node, t_token *token, cmd_list **last_n
 {
 	if (!*current_node)
 	{
-		*current_node = new_cmd_node(program->env, program);
+		*current_node = new_cmd_node(program);
 		program->cmds = *current_node;
 		*last_node = *current_node;
 	}

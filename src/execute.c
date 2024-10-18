@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:39:36 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/13 20:22:13 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:11:34 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	execution(cmd_list *cmds)
             check_builtin(cmds);
 			check_process(cmds);
             if (!cmds->built_in)
-                cmds->path = find_path(cmds->env, cmds->content[0]);
+                cmds->path = find_path(cmds->prog->env_list, cmds->content[0]);
             command_execution(cmds, cmd_count);
         }
         cmds = cmds->next;

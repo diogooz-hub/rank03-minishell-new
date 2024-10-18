@@ -4,10 +4,10 @@ void	env(cmd_list **cmd)
 {
 	t_env_var	*temp;
 
-	temp = (*cmd)->env;
+	temp = (*cmd)->prog->env_list;
 	while (temp)
 	{
-		printf("%s\n", temp->content);
+		printf("%s\n", temp->var);
 		temp = temp->next;
 	}
 }

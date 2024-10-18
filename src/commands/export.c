@@ -1,5 +1,141 @@
 #include "../../includes/minishell.h"
 
+void	populate_env_node(t_env_var *node)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 0;
+	while (node->var[i] && node->var[i] != '=')
+		i++;
+	node->name = (char *)malloc((i + 1) * sizeof(char));
+	node->name[i] = '\0';
+	while (n < i)
+	{
+		node->name[n] = node->var[n];
+		n++;
+	}
+	if (node->var[n])
+		node->value = ft_strdup(node->var + i + 1);
+	else
+		node->value = NULL;
+}
+
+void	add_node_to_env_end(t_env_var **list, char *var)
+{
+	t_env_var	*new_node;
+	t_env_var	*temp;
+
+	new_node = (t_env_var *)malloc(sizeof(t_env_var));
+	if (!new_node)
+	{
+		printf("Malloc failed\n");
+		exit(-1);
+	}
+	new_node->var = ft_strdup(var);
+	populate_env_node(new_node);
+	new_node->next = NULL;
+	temp = *list;
+	if (!*list)
+	{
+		*list = new_node;
+		return ;
+	}
+	while (temp->next)
+		temp = temp->next;
+	new_node->prev = temp;
+	temp->next = new_node;
+}
+
+void	update_env_array(char ***env_array, t_env_var **env_list)
+{
+	int			size;
+	t_env_var	*temp;
+	int			i;
+
+	size = ft_lstsize_minish(env_list);
+	//free the previous array
+	*env_array = (char **)malloc((size + 1) * sizeof(char *));
+	(*env_array)[size] = NULL;
+	temp = *env_list;
+	i = 0;
+	while (i < size)
+	{
+		(*env_array)[i] = ft_strdup(temp->var);
+		temp = temp->next;
+		i++;
+	}
+}
+
+void	sort_env_array(char **env_array)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	i = 0;
+	while (env_array[i])
+	{
+		j = i + 1;
+		while (env_array[j])
+		{
+			if (ft_strcmp(env_array[i], env_array[j]) > 0)
+			{
+				temp = env_array[i];
+				env_array[i] = env_array[j];
+				env_array[j] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+void	print_var_in_quotes(char *var)
+{
+	int	i;
+
+	i = 0;
+	while (var[i] != '=')
+	{
+		write(1, &var[i], 1);
+		i++;
+	}
+	write(1, "=\"", 2);
+	i++;
+	while (var[i])
+	{
+		write(1, &var[i], 1);
+		i++;
+	}
+	write(1, "\"\n", 2);
+}
+
+void	export_with_args(cmd_list **cmd)
+{
+	char *var;
+
+	var = (*cmd)->content[1];
+	add_node_to_env_end(&(*cmd)->prog->env_list, var);
+	update_env_array(&(*cmd)->prog->env_array, &(*cmd)->prog->env_list);
+}
+
+
+void	export_no_args(cmd_list **cmd)
+{
+	int	i;
+	update_env_array(&(*cmd)->prog->env_array, &(*cmd)->prog->env_list);
+	sort_env_array((*cmd)->prog->env_array);
+	i = 0;
+	while ((*cmd)->prog->env_array[i])
+	{
+		print_var_in_quotes((*cmd)->prog->env_array[i]);
+		i++;
+	}
+	//print array mas a cada iteração chamo uma auxiliar que copia a str mete quotes para imprimir e depois dá free
+}
+
+/*
 void	sort_env(char **envir, int len)
 {
 	int	i;
@@ -98,3 +234,5 @@ void	export_with_args(cmd_list **cmd)
 {
 	add_var_to_env((*cmd)->content + 1, &(*cmd)->env);
 }
+
+*/
