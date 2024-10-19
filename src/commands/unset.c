@@ -43,7 +43,7 @@ void	unset(cmd_list **cmd)
 	int	i;
 
 	i = 1;
-	printf("unset check\n");
+	//printf("unset check\n");
 	while ((*cmd)->content[i])
 	{
 		exec_unset(&(*cmd)->prog->env_list, (*cmd)->content[i]);

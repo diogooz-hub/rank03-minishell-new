@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 19:29:32 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/18 18:41:12 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/19 18:58:21 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,6 @@ void	copy_envp_to_array(t_program *program, char **envp)
 		i++;
 	}
 	program->env_array[i] = NULL;
-}
-
-void	populate_env_node(t_env_var *node)
-{
-	int	i;
-	int	n;
-
-	i = 0;
-	n = 0;
-	while (node->var[i] && node->var[i] != '=')
-		i++;
-	node->name = (char *)malloc((i + 1) * sizeof(char));
-	node->name[i] = '\0';
-	while (n < i)
-	{
-		node->name[n] = node->var[n];
-		n++;
-	}
-	if (node->var[n])
-		node->value = ft_strdup(node->var + i + 1);
-	else
-		node->value = NULL;
 }
 
 t_env_var	*new_env_node(char *var)
@@ -108,42 +86,3 @@ void	init_env(t_program *program, char **envp)
 	copy_envp_to_array(program, envp);
 	generate_env_list(program);
 }
-
-/*
-void	parse_name_value(t_env_var *node)
-{
-	int			i;
-	int			h;
-
-	i = 0;
-	h = 0;
-	while (node->content[i] && node->content[i] != '=')
-	{
-		i++;
-	}
-	node->name = (char *)malloc((i + 1) * sizeof(char));
-	node->name[i] = '\0';
-	while (h < i)
-	{
-		node->name[h] = node->content[h];
-		h++;
-	}
-	if (node->content[h])
-		node->value = ft_strdup(node->content + i + 1);
-	else
-		node->value = NULL;
-}
-
-void	init_env(t_program *program)
-{
-	t_env_var	*temp;
-
-	copy_array_to_list(program->init_env, &program->env_list);
-	temp = program->env_list;
-	while (temp)
-	{
-		parse_name_value(temp);
-		temp = temp->next;
-	}
-}
-*/
