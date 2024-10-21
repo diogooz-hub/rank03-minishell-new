@@ -6,11 +6,27 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 08:33:20 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/08 22:50:21 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/20 00:18:57 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	only_tab(char *input)
+{
+	bool	ret;
+	int		i;
+
+	ret = true;
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] != '\t' && input[i] != ' ')
+			ret = false;
+		i++;
+	}
+	return (ret);
+}
 
 bool	validate_input(t_program *program)
 {
@@ -24,6 +40,8 @@ bool	validate_input(t_program *program)
 	i = 0;
 	count_quotes = 0;
 	count_dquotes = 0;
+	if (only_tab(program->input))
+		return (false);
 	if (!program->input || !program->input[0])
 	{
 		printf("focus mfker, you have an empty input\n");

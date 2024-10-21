@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:59:09 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/19 19:24:30 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/20 18:28:32 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ char	**copy_array(char **arr)
 	return (new);
 }
 */
+
+void free_node(t_env_var *node)
+{
+	if (node->var)
+		free(node->var);
+	if (node->name)
+		free(node->name);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
 
 void	free_arr(char **arr)
 {
@@ -110,6 +121,20 @@ void	populate_env_node(t_env_var *node)
 		node->value = ft_strdup(node->var + i + 1);
 	else
 		node->value = NULL;
+}
+
+bool	var_exists(t_env_var **list, char *var)
+{
+	t_env_var	*temp;
+
+	temp = *list;
+	while (temp != NULL)
+	{
+		if (ft_strncmp(temp->name, var, strlen(temp->name)) == 0)
+			return (true);
+		temp = temp->next;
+	}
+	return (false);
 }
 
 /*

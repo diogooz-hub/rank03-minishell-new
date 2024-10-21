@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:59:02 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/19 19:17:17 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/20 19:41:00 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,51 @@ void	print_var_in_quotes(char *var)
 	write(1, "\"\n", 2);
 }
 
+bool	validate_arg(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(arg[i]) && arg[i] != '_')
+	{
+		printf("minishell: export: `%s': not a valid identifier\n", arg);
+		return (false);
+	}
+	i++;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (!ft_isalnum(arg[i]))
+		{
+			printf("minishell: export: `%s': not a valid identifier\n", arg);
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
 void	export_with_args(cmd_list **cmd)
 {
 	char *var;
+	int	i;
 
-	var = (*cmd)->content[1];
-	add_node_to_env_end(&(*cmd)->prog->env_list, var);
+	i = 1;
+	while ((*cmd)->content[i])
+	{
+		if(!validate_arg((*cmd)->content[i]))
+			exec_error(*cmd, "export");
+		i++;
+	}
+	i = 1;
+	while ((*cmd)->content[i])
+	{
+		var = (*cmd)->content[i];
+		printf("var to add: %s\n", var);
+		if (var_exists(&(*cmd)->prog->env_list, var))
+			exec_unset(&(*cmd)->prog->env_list, var);
+		add_node_to_env_end(&(*cmd)->prog->env_list, var);
+		i++;
+	}
 	update_env_array(&(*cmd)->prog->env_array, &(*cmd)->prog->env_list);
 }
 

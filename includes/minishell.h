@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/19 18:48:41 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/20 17:55:03 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,10 @@ void		set_exit_status(cmd_list *cmd, int status);
 void		parse_name_value(t_env_var *node);
 void		update_env_array(char ***env_array, t_env_var **env_list);
 void		populate_env_node(t_env_var *node);
+void		remove_no_value_nodes(t_env_var **list);
+void 		free_node(t_env_var *node);
+bool		var_exists(t_env_var **list, char *var);
+void		exec_unset(t_env_var **list, char *var);
 
 
 // DEBUGERS

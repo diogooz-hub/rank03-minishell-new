@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 23:31:58 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/13 20:11:44 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/20 19:41:10 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	exec_error(cmd_list *cmd, char *error)
 {
+	//printf("Error: %s\n", error);
 	if (!strcmp(error, "fork"))
 	{
 		printf("Error: fork failed\n");
@@ -47,6 +48,11 @@ void	exec_error(cmd_list *cmd, char *error)
 	else if (!strcmp(error, "chdir"))
 	{
 		printf("Error: chdir failed\n");
+		set_exit_status(cmd, 1);
+	}
+	else if(!strcmp(error, "export"))
+	{
+		//printf("Error: export failed\n");
 		set_exit_status(cmd, 1);
 	}
 }

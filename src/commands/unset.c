@@ -1,16 +1,5 @@
 #include "../../includes/minishell.h"
 
-void free_node(t_env_var *node)
-{
-	if (node->var)
-		free(node->var);
-	if (node->name)
-		free(node->name);
-	if (node->value)
-		free(node->value);
-	free(node);
-}
-
 void	exec_unset(t_env_var **list, char *var)
 {
 	t_env_var	*temp;
@@ -18,24 +7,44 @@ void	exec_unset(t_env_var **list, char *var)
 
 	temp = *list;
 	prev = NULL;
+	//printf("var to unset: %s\n", var);
     while (temp != NULL)
     {
-        if (ft_strncmp(temp->name, var, strlen(var) + 1) == 0)
+        if (ft_strncmp(temp->name, var, strlen(temp->name)) == 0)
         {
+			//printf("found var to unset\n");
             if (prev == NULL) // Node to be deleted is the first node
-            {
                 *list = temp->next;
-            }
             else // Node to be deleted is not the first node
-            {
                 prev->next = temp->next;
-            }
             free_node(temp);
             return;
         }
         prev = temp;
         temp = temp->next;
     }
+}
+
+bool	valide_unset_arg(char *arg)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(arg[i]) && arg[i] != '_')
+	{
+		printf("minishell: unset: `%s': not a valid identifier\n", arg);
+		return (false);
+	}
+	i++;
+	while (arg[i])
+	{
+		if (!ft_isalnum(arg[i]))
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n", arg);
+			return (false);
+		}
+	}
+	return (true);
 }
 
 void	unset(cmd_list **cmd)
@@ -46,6 +55,8 @@ void	unset(cmd_list **cmd)
 	//printf("unset check\n");
 	while ((*cmd)->content[i])
 	{
+		if(!valide_unset_arg((*cmd)->content[i]))
+			exec_error(*cmd, "unset");
 		exec_unset(&(*cmd)->prog->env_list, (*cmd)->content[i]);
 		i++;
 	}
