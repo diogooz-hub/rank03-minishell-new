@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 22:39:36 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/18 18:11:34 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 08:49:16 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	command_on_child(cmd_list *cmd, int og_stdin, int og_stdout)
 		parent_wait(pid, cmd);
 	else
 	{
-		exec_error(cmd, "fork");
+		exec_process_error(cmd, "fork");
 		return ;
 	}
 }
@@ -75,7 +75,7 @@ void	command_execution(cmd_list *cmd, int process_count)
 	{
 		set_exit_status(cmd, 1);
 		exit(EXIT_FAILURE);
-		exec_error(cmd, "execution");
+		exec_process_error(cmd, "execution");
 		return ;
 	}
 	if (cmd->on_parent && process_count == 1)

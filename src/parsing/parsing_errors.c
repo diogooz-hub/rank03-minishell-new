@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 18:06:51 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/13 18:10:47 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 08:44:12 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ void	parse_error(t_program *program, char *error)
 		printf("minishell: redirection error\n");
 		program->exit_status = 2;
 	}
-	else if (!strcmp(error, "variable"))
+}
+
+void	expand_error(t_program *program, char *error)
+{
+	if (!strcmp(error, "variable"))
 	{
 		printf("minishell: variable error\n");
 		program->exit_status = 2;

@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:31:17 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/19 18:39:44 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 19:30:26 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,25 @@ void handle_operator(char *input, int *i, char **token, t_token ***tokens)
 
 void handle_variable(char *input, int *i, char **token, t_token ***tokens, int in_quotes, char quote_char)
 {
-    // If inside single quotes, treat the variable as part of the string
     if (in_quotes && quote_char == '\'')
 		add_token_if_needed(token, tokens, STRING);
-
-    // Handle variables normally (outside quotes or inside double quotes)
-    // token[(*token_pos)++] = input[*i]; // Add the '$'
 	update_token(token, input[*i]);
     (*i)++;  // Move to the next character
-
-    // Handle special case: $?
     if (input[*i] == '?')
     {
-        //token[(*token_pos)++] = input[*i];
 		update_token(token, input[*i]);
         (*i)++;
     }
-    // Handle valid variable names (alphanumeric or underscores)
     else if (ft_isalnum(input[*i]) || input[*i] == '_')
     {
         while (ft_isalnum(input[*i]) || input[*i] == '_')
         {
-            //token[(*token_pos)++] = input[*i];
             update_token(token, input[*i]);
 			(*i)++;
         }
     }
     else
     {
-        // Invalid variable, treat as a standalone '$'
         (*i)--;  // Step back so that the next character can be handled
 		*token[ft_strlen(*token) - 1] = '\0';  // Null-terminate the variable token
 		return;
@@ -76,11 +66,8 @@ void handle_quoted_string(char *input, int *i, char **token, int *in_quotes, cha
     *in_quotes = 1;
     *quote_char = input[*i];  // Store the type of quote (' or ")
     (*i)++;  // Move past the opening quote
-
-    // If inside single quotes, treat everything as string
     while (input[*i] != '\0')
     {
-        // If we encounter the closing quote, stop processing the string
         if (input[*i] == *quote_char)
         {
             *in_quotes = 0;

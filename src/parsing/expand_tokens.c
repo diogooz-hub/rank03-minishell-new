@@ -6,32 +6,38 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 08:32:53 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/18 18:40:37 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 08:48:22 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Expand tilde (~) using the HOME environment variable from program->env
-char *expand_tilde(t_program *program)
+void	expand_tilde(t_token **token, t_program *program)
 {
-    t_env_var *temp = program->env_list;
+    t_env_var *temp;
 
+	if (ft_strcmp((*token)->content, "~") == 0)
+        free((*token)->content);
+	temp = program->env_list;
     while (temp)
     {
         if (ft_strcmp("HOME", temp->name) == 0)
-            return temp->value;
-        temp = temp->next;
-    }
-    return NULL; // Return NULL if HOME is not found
+		{
+			(*token)->content = ft_strdup(temp->value);
+			return ;
+		}
+		temp = temp->next;
+	}
+	(*token)->content = ft_strdup("");
 }
 
 // Expand environment variables using program->env
 char *expand_env_var(char *str, t_program *program)
 {
-    t_env_var *temp = program->env_list;
+    t_env_var *temp;
 
-    // The variable name starts after the '$' symbol
+	temp = program->env_list;
     while (temp)
     {
         if (ft_strcmp(str + 1, temp->name) == 0)
@@ -41,44 +47,43 @@ char *expand_env_var(char *str, t_program *program)
     return NULL; // Return NULL if the environment variable is not found
 }
 
+void	expand_variable(t_token **token, t_program *program)
+{
+	char	*expanded_value;
+
+    if (ft_strcmp((*token)->content, "$?") == 0)
+    {
+    	free((*token)->content);
+    	(*token)->content = ft_itoa(program->exit_status);
+    }
+    else if ((*token)->content[0] == '$')
+    {
+        expanded_value = expand_env_var((*token)->content, program);
+		free((*token)->content);
+        if (expanded_value)
+            (*token)->content = ft_strdup(expanded_value); // Make a copy of the expanded value
+		else
+		{
+			(*token)->content = ft_strdup("");  // Set to empty string if the variable is not found
+			(*token)->type = STRING;  // Change the type to STRING
+		}
+    }
+}
+
 // Expand tokens that include environment variables or special symbols
 void expand_tokens(t_token **tokens, t_program *program)
 {
-    int i = 0;
+    int i;
 
-    while (tokens[i])
+	i = 0;
+	while (tokens[i])
     {
-        // Check for VARIABLE type tokens
         if (tokens[i]->type == VARIABLE || tokens[i]->type == TILDE)
         {
-            // Handle tilde expansion
-            if (ft_strcmp(tokens[i]->content, "~") == 0)
-            {
-                free(tokens[i]->content);
-                tokens[i]->content = ft_strdup(expand_tilde(program));
-            }
-            // Handle $? to expand the exit status
-            else if (ft_strcmp(tokens[i]->content, "$?") == 0)
-            {
-                free(tokens[i]->content);
-                tokens[i]->content = ft_itoa(program->exit_status);
-            }
-            // Handle regular environment variable expansion (e.g., $USER)
-            else if (tokens[i]->content[0] == '$')
-            {
-                char *expanded_value = expand_env_var(tokens[i]->content, program);
-                if (expanded_value)
-                {
-                    free(tokens[i]->content);
-                    tokens[i]->content = ft_strdup(expanded_value); // Make a copy of the expanded value
-                }
-				else
-				{
-					free(tokens[i]->content);
-					tokens[i]->content = ft_strdup("");  // Set to empty string if the variable is not found
-					tokens[i]->type = STRING;  // Change the type to STRING
-				}
-            }
+			if (tokens[i]->type == TILDE)
+				expand_tilde(&tokens[i], program);
+			else
+				expand_variable(&tokens[i], program);
         }
         i++;
     }

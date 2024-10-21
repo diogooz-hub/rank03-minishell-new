@@ -8,7 +8,7 @@ void	cd_home(cmd_list *cmd)
 	if (home)
 	{
 		if (chdir(home) == -1)
-			exec_error(cmd, "chdir");
+			exec_cmd_error(cmd, "chdir");
 	}
 	else
 		printf("HOME variable not set\n");
@@ -26,7 +26,7 @@ void	relative_path(cmd_list *cmd, char *dir)
 		final_path = ft_strjoin(path_buf, dir);
 		//printf("Final path: %s\n", final_path);
 		if (chdir(final_path) == -1)
-			exec_error(cmd, "chdir");
+			exec_cmd_error(cmd, "chdir");
 	}
 	else
 		perror("No such file or directory\n");
@@ -35,7 +35,7 @@ void	relative_path(cmd_list *cmd, char *dir)
 void	absolute_path(cmd_list *cmd, char 	*s)
 {
 	if (chdir(s) == -1)
-		exec_error(cmd, "chdir");
+		exec_cmd_error(cmd, "chdir");
 }
 
 void	cd(cmd_list **cmd)

@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:59:02 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/20 19:41:00 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 08:03:17 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	export_with_args(cmd_list **cmd)
 	while ((*cmd)->content[i])
 	{
 		if(!validate_arg((*cmd)->content[i]))
-			exec_error(*cmd, "export");
+			exec_cmd_error(*cmd, "export");
 		i++;
 	}
 	i = 1;

@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:10:03 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/18 18:13:59 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:10:44 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,14 @@ void add_token_to_cmd(cmd_list *cmd, char *token_value)
 		new_content[j] = cmd->content[j];
 		j++;
 	}
+	j = 0;
+	while (cmd->content && cmd->content[j])
+	{
+		free(cmd->content[j]);
+		j++;
+	}
 	new_content[i] = strdup(token_value);
 	new_content[i + 1] = NULL;
-	free(cmd->content);
 	cmd->content = new_content;
 }
 

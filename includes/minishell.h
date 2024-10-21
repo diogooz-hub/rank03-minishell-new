@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:55:04 by pedalexa          #+#    #+#             */
-/*   Updated: 2024/10/20 17:55:03 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:08:38 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ void	check_process(cmd_list *cmd);
 void 	restore_fds(cmd_list *cmd, int og_stdin, int og_stdout);
 void 	close_pipe_ends(cmd_list *cmd, int is_parent);
 bool 	check_if_full_path(char *s);
-void 	exec_error(cmd_list *cmd, char *error);
+void 	exec_process_error(cmd_list *cmd, char *error);
+void	exec_cmd_error(cmd_list *cmd, char *error);
 
 
 // UTILS FUNCTIONS
@@ -152,7 +153,7 @@ void		remove_no_value_nodes(t_env_var **list);
 void 		free_node(t_env_var *node);
 bool		var_exists(t_env_var **list, char *var);
 void		exec_unset(t_env_var **list, char *var);
-
+void 	free_cmds(cmd_list **cmds);
 
 // DEBUGERS
 void	print_tokens1(t_token **tokens);

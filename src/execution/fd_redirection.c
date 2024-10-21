@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:08:42 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/13 17:28:24 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 08:49:13 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void setup_pipes(cmd_list *cmd)
     {
         if (pipe(cmd->fd) == -1)
         {
-			exec_error(cmd, "pipe");
+			exec_process_error(cmd, "pipe");
 			return ;
         }
         cmd->fd_master[1] = cmd->fd[1];
@@ -70,7 +70,7 @@ void restore_fds(cmd_list *cmd, int og_stdin, int og_stdout)
 	{
 		if (dup2(og_stdin, STDIN_FILENO) == -1)
 		{
-			exec_error(cmd, "dup2");
+			exec_process_error(cmd, "dup2");
 			return ;
 		}
 		close(og_stdin);
@@ -79,7 +79,7 @@ void restore_fds(cmd_list *cmd, int og_stdin, int og_stdout)
 	{
 		if (dup2(og_stdout, STDOUT_FILENO) == -1)
 		{
-			exec_error(cmd, "dup2");
+			exec_process_error(cmd, "dup2");
 			return ;
 		}
 		close(og_stdout);
@@ -93,7 +93,7 @@ void execute_redirections(cmd_list *cmd)
     {
         if (dup2(cmd->fd_master[0], STDIN_FILENO) == -1)
         {
-			exec_error(cmd, "dup2");
+			exec_process_error(cmd, "dup2");
 			return ;
         }
         close(cmd->fd_master[0]);
@@ -103,7 +103,7 @@ void execute_redirections(cmd_list *cmd)
 		//printf("duplicating output file descriptor for output\n");
         if (dup2(cmd->fd_master[1], STDOUT_FILENO) == -1)
         {
-			exec_error(cmd, "dup2");
+			exec_process_error(cmd, "dup2");
 			return ;
         }
         close(cmd->fd_master[1]);

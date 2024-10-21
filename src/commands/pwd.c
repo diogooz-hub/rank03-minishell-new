@@ -8,5 +8,5 @@ void	pwd(cmd_list **cmd)
 	if (getcwd(path_buf, sizeof(path_buf)) != NULL)
 		printf("%s\n", path_buf);
 	else
-		exec_error((*cmd), "getcwd");
+		exec_cmd_error((*cmd), "getcwd");
 }

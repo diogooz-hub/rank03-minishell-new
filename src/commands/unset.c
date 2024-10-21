@@ -56,7 +56,7 @@ void	unset(cmd_list **cmd)
 	while ((*cmd)->content[i])
 	{
 		if(!valide_unset_arg((*cmd)->content[i]))
-			exec_error(*cmd, "unset");
+			exec_cmd_error(*cmd, "unset");
 		exec_unset(&(*cmd)->prog->env_list, (*cmd)->content[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: dpaco <dpaco@student.42lisboa.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:28:29 by dpaco             #+#    #+#             */
-/*   Updated: 2024/10/19 19:17:56 by dpaco            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:02:17 by dpaco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_env(struct s_env_var	*env)
 	{
 		tmp = env;
 		env = env->next;
+		free(tmp->var);
 		free(tmp->name);
 		free(tmp->value);
 		free(tmp);
